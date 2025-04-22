@@ -1,0 +1,32 @@
+﻿using SenaiSoundSql.Banco;
+using SenaiSoundSql.Modelos;
+
+namespace SenaiSoundSql.Menus;
+
+internal class MenuRegistrarMusica : Menu
+{
+    public override void Executar(DAL<Artista> artistaDAL)
+    {
+        base.Executar(artistaDAL);
+        ExibirTituloDaOpcao("Registro de músicas");
+        Console.Write("Digite o artista cuja música deseja registrar: ");
+        string nomeDoArtista = Console.ReadLine()!;
+        var artistasRecuperados = artistaDAL.RecuperarPor(a => a.Nome.Equals(nomeDoArtista));
+        if (artistasRecuperados is not null)
+        {
+            Console.Write("Agora digite o título da música: ");
+            string tituloDaMusica = Console.ReadLine()!;
+            artistasRecuperados.AdicionarMusica(new Musica(tituloDaMusica));
+            Console.WriteLine($"A música {tituloDaMusica} de {nomeDoArtista} foi registrada com sucesso!");
+            Thread.Sleep(4000);
+            Console.Clear();
+        }
+        else
+        {
+            Console.WriteLine($"\nO artista {nomeDoArtista} não foi encontrado!");
+            Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+            Console.ReadKey();
+            Console.Clear();
+        }
+    }
+}

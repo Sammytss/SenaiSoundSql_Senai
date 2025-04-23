@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using SenaiSoundSql.Menus;
+﻿using SenaiSoundSql.Menus;
 using SenaiSoundSql.Modelos;
 using SenaiSoundSql.Banco;
 

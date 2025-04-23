@@ -2,15 +2,17 @@
 
 public class Musica
 {
-    public Musica(string nome)
+    public Musica(string nome/*, Artista artista)*/, int? anoDeLancamento)
     {
-        Nome = nome;
+        Nome = nome;/*
+        Artista = artista;*/
+        AnoDeLancamento = anoDeLancamento;
     }
 
     public string Nome { get; set; }
     public int Id { get; set; }
     public int? AnoDeLancamento { get; set; }
-    public Artista Artista { get; set; }
+    public Artista? Artista { get; set; }
 
     public void ExibirFichaTecnica()
     {

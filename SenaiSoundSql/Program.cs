@@ -1,7 +1,6 @@
-﻿using MySql.Data.MySqlClient;
-using SenaiSoundSql.Menus;
-using SenaiSoundSql.Modelos;
-using SenaiSoundSql.Banco;
+﻿using SenaiSound.Menus;
+using SenaiSound.Modelos;
+using SenaiSound.Banco;
 
 Dictionary<int, Menu> opcoes = new();
 opcoes.Add(1, new MenuRegistrarArtista());

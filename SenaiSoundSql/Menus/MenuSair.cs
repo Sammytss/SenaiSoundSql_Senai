@@ -1,7 +1,7 @@
-﻿using SenaiSoundSql.Banco;
-using SenaiSoundSql.Modelos;
+﻿using SenaiSound.Banco;
+using SenaiSound.Modelos;
 
-namespace SenaiSoundSql.Menus;
+namespace SenaiSound.Menus;
 
 internal class MenuSair : Menu
 {

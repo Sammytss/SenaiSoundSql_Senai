@@ -1,35 +1,51 @@
-using SenaiSoundSql.Banco;
-using SenaiSoundSql.Modelos;
+using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using SenaiSoundAPI.EndPoints;
+using SenaiSound.Banco;
+using SenaiSound.Modelos;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuração do contexto para MySQL
+builder.Services.AddDbContext<SenaiSoundContext>((options) =>
+{
+    options
+        .UseMySql(
+            builder.Configuration["ConnectionStrings:SenaiSoundDb"],
+            new MySqlServerVersion(new Version(8, 0, 31))
+        );
+});
+
+// Configuração para evitar ciclos de referência no JSON
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+// Configuração do CORS
+builder.Services.AddCors();
+
+// Registro dos serviços
+builder.Services.AddTransient<DAL<Artista>>();
+builder.Services.AddTransient<DAL<Musica>>();
+builder.Services.AddTransient<DAL<Genero>>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-app.MapGet("/Artistas", () =>
+// Configuração do CORS para permitir qualquer origem, método e cabeçalho
+app.UseCors(options =>
 {
-    var dal = new DAL<Musica>(new SenaiSoundContext());
-    var artistas = dal.Listar();
-    return Results.Ok(artistas);
+    options.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
 });
 
-app.MapGet("/Artistas/{nome}", (string nome) =>
-{
-    var dal = new DAL<Artista>(new SenaiSoundContext());
-    var artistas = dal.RecuperarPor(a => a.Nome.ToUpper().Equals(nome.ToUpper()));
-    if(artistas is null)
-    {
-        return Results.NotFound("Artista não encontrado!");
-    }
-    return Results.Ok(artistas);
+// Registro dos endpoints
+app.AddEndPointsArtistas();
+app.AddEndPointsMusicas();
+app.AddEndPointsGeneros();
 
-});
-
-app.MapPost("/Artistas", (Artista artista) =>
-{
-    var dal = new DAL<Artista>(new SenaiSoundContext());
-    dal.AdicionarObjeto(artista);
-    return Results.Created($"/Artistas/{artista.Nome}", artista);
-});
-
-
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.Run();

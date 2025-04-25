@@ -1,7 +1,7 @@
-﻿using SenaiSoundSql.Modelos;
-using SenaiSoundSql.Banco;
+﻿using SenaiSound.Modelos;
+using SenaiSound.Banco;
 
-namespace SenaiSoundSql.Menus;
+namespace SenaiSound.Menus;
 
 internal class MenuMostrarArtistas : Menu
 {

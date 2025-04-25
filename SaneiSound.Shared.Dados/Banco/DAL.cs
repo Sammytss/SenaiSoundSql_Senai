@@ -1,6 +1,6 @@
-﻿using SenaiSoundSql.Modelos;
+﻿using SenaiSound.Modelos;
 
-namespace SenaiSoundSql.Banco
+namespace SenaiSound.Banco
 {
     // T Indica que a classe dal representará uma classe genérica
     public class DAL<T> where T : class
@@ -31,6 +31,11 @@ namespace SenaiSoundSql.Banco
         public T? RecuperarPor(Func<T, bool> condicao)
         {
             return context.Set<T>().FirstOrDefault(condicao);
+        }
+        public void RemoverObjeto(T objeto)
+        {
+            context.Set<T>().Remove(objeto);
+            context.SaveChanges();
         }
 
     }

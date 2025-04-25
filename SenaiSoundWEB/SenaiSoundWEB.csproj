@@ -6,14 +6,10 @@
 		<SelfContained>true</SelfContained>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\SenaiSoundSql\SenaiSoundSql.csproj" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
 	</ItemGroup>
 
 </Project>

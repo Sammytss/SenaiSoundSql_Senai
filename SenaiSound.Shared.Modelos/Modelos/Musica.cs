@@ -1,4 +1,4 @@
-﻿namespace SenaiSoundSql.Modelos;
+﻿namespace SenaiSound.Modelos;
 
 public class Musica
 {
@@ -10,7 +10,9 @@ public class Musica
     public string Nome { get; set; }
     public int Id { get; set; }
     public int? AnoDeLancamento { get; set; }
-    public Artista Artista { get; set; }
+    public Artista? Artista { get; set; }
+    public virtual ICollection<Genero>? Generos { get; set; }
+    public int ArtistaId { get; set; }
 
     public void ExibirFichaTecnica()
     {

@@ -1,4 +1,5 @@
 ﻿@page "/MostrarArtistas"
+@inject ArtistaAPI artistaAPI
 <PageTitle>Mostrar Artistas</PageTitle>
 
 <style>
@@ -9,10 +10,21 @@
         font-family: 'Times New Roman', Times, serif, sans-serif;
     }
 </style>
-<p>@Mensagem</p>
 
 <h3 class="Menu">Mostrar Artistas</h3>
+<h3>Artistas</h3>
+@if (artistas is not null)
+{
+    foreach (var artista in artistas)
+    {
+        <p>@artista.Nome</p>
+    }
+}
 
 @code {
-    public string Mensagem { get; set; } = "Olá Mundo!!";
+    private ICollection<ArtistaResponse>? artistas;
+    protected override async Task OnInitializedAsync()
+    {
+        artistas = await artistaAPI.GetArtistasAsync();
+    }
 }

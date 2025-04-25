@@ -33,7 +33,11 @@ namespace SenaiSoundAPI.EndPoints
 
             app.MapPost("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequest musicaRequest) =>
             {
-                var musica = new Musica(musicaRequest.nome);
+                var musica = new Musica(musicaRequest.nome)
+                {
+                    ArtistaId = musicaRequest.ArtistaId,
+                    AnoDeLancamento = musicaRequest.anoDeLancamento
+                };
                 if (dal.RecuperarPor(m => m.Nome.Equals(musicaRequest.nome)) is null)
                 {
                     dal.AdicionarObjeto(musica);
@@ -61,7 +65,7 @@ namespace SenaiSoundAPI.EndPoints
                     return Results.NotFound("Música não encontrada!");
                 }
                 musicaAAtualizar.Nome = musicaRequestEdit.nome;
-                musicaAAtualizar.AnoDeLancamento = musicaRequestEdit.anoLancamento;
+                musicaAAtualizar.AnoDeLancamento = musicaRequestEdit.anoDeLancamento;
                 dal.AtualizarObjeto(musicaAAtualizar);
                 return Results.Ok();
             });
@@ -69,12 +73,12 @@ namespace SenaiSoundAPI.EndPoints
         }
         private static ICollection<MusicaResponse> EntityListToResponseList(IEnumerable<Musica> musicas)
         {
-            return musicas.Select(a => EntityToResponse(a)).ToList();
+            return musicas.Select(m => EntityToResponse(m)).ToList();
         }
 
         private static MusicaResponse EntityToResponse(Musica musica)
         {
-            return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista!.Id, musica.Artista.Nome);
+            return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista!.Id, musica.Artista.Nome, musica.AnoDeLancamento);
         }
     }
 }

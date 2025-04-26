@@ -17,6 +17,10 @@ namespace SenaiSound.Banco
 
         private string conexaoDb = $"Server={servidor};Database={banco};User Id={usuario};Password={senha};Connection Timeout=60;";
 
+        public SenaiSoundContext(DbContextOptions options) : base(options)
+        {
+
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,12 +28,12 @@ namespace SenaiSound.Banco
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Musica>()
                 .HasMany(m => m.Generos)
                 .WithMany(g => g.Musicas);
-        }
+        }*/
 
     }
 }

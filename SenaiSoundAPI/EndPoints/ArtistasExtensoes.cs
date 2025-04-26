@@ -15,8 +15,13 @@ namespace SenaiSoundAPI.EndPoints
 
             app.MapGet("/Artistas", ([FromServices] DAL<Artista> dal) =>
             {
-                var artista = Results.Ok(dal.Listar());
-                return artista;
+                var artistas = dal.Listar();
+                if (artistas is null)
+                {
+                    return Results.NotFound();
+                }
+                var listaDeArtistaResponse = EntityListToResponseList(artistas);
+                return Results.Ok(listaDeArtistaResponse);
             });
             app.MapGet("/Artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
             {
@@ -25,7 +30,7 @@ namespace SenaiSoundAPI.EndPoints
                 {
                     return Results.NotFound("Artista não encontrado!");
                 }
-                return Results.Ok(artista);
+                return Results.Ok(EntityToResponse(artista));
             });
 
             // Post de artista Request
@@ -71,9 +76,9 @@ namespace SenaiSoundAPI.EndPoints
 
             });
         }
-        private static ICollection<ArtistaResponse> EntityListToResponseList(IEnumerable<Artista> listaDeArtistas)
+        private static ICollection<ArtistaResponse> EntityListToResponseList(IEnumerable<Artista> artistas)
         {
-            return listaDeArtistas.Select(a => EntityToResponse(a)).ToList();
+            return artistas.Select(a => EntityToResponse(a)).ToList();
         }
 
         private static ArtistaResponse EntityToResponse(Artista artista)

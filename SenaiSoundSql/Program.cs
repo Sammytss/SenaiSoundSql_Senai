@@ -9,11 +9,11 @@ opcoes.Add(3, new MenuAlterarDadosDoArtista());
 opcoes.Add(4, new MenuMostrarArtistas());
 opcoes.Add(5, new MenuMostrarMusicas());
 opcoes.Add(0, new MenuSair());
-
+/*
 var context = new SenaiSoundContext();
 var artistaDAL = new DAL<Artista>(context);
 var mussicaDAL = new DAL<Musica>(context);
-
+*/
 void ExibirLogo()
 {
     Console.WriteLine(@"
@@ -43,7 +43,7 @@ void ExibirOpcoesDoMenu()
     if (opcoes.ContainsKey(opcaoEscolhidaNumerica))
     {
         Menu menuASerExibido = opcoes[opcaoEscolhidaNumerica];
-        menuASerExibido.Executar(artistaDAL);
+        /*menuASerExibido.Executar(*//*artistaDAL*//*);*/
         if (opcaoEscolhidaNumerica > 0) ExibirOpcoesDoMenu();
     }
     else

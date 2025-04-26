@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using SenaiSound.Banco;
 using SenaiSound.Modelos;
 
@@ -52,3 +52,4 @@ namespace SenaiSoundAPI.EndPoints
         }
     }
 }
+*/

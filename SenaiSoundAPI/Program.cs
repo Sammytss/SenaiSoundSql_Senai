@@ -6,14 +6,14 @@ using SenaiSound.Modelos;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuração do contexto para MySQL
-builder.Services.AddDbContext<SenaiSoundContext>((options) =>
+// Configuração do contexto para MySQL com Lazy Loading
+// Carregamento preguiçoso, sem a necessidade de expecificar o acesso a determidadas classes
+builder.Services.AddDbContext<SenaiSoundContext>(options =>
 {
-    options
-        .UseMySql(
-            builder.Configuration["ConnectionStrings:SenaiSoundDb"],
-            new MySqlServerVersion(new Version(8, 0, 31))
-        );
+    options.UseMySql(
+        builder.Configuration["ConnectionStrings:SenaiSoundDb"],
+        new MySqlServerVersion(new Version(8, 0, 31))
+    ).UseLazyLoadingProxies();  
 });
 
 // Configuração para evitar ciclos de referência no JSON
@@ -44,7 +44,7 @@ app.UseCors(options =>
 // Registro dos endpoints
 app.AddEndPointsArtistas();
 app.AddEndPointsMusicas();
-app.AddEndPointsGeneros();
+// app.AddEndPointsGeneros();
 
 app.UseSwagger();
 app.UseSwaggerUI();

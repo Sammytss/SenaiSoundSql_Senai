@@ -6,7 +6,7 @@ using SenaiSoundAPI.Response;
 
 namespace SenaiSoundAPI.EndPoints
 {
-    public static class MusicasExtencoes
+    public static class MusicasExtensoes
     {
         public static void AddEndPointsMusicas(this WebApplication app)
         {
@@ -33,7 +33,11 @@ namespace SenaiSoundAPI.EndPoints
 
             app.MapPost("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequest musicaRequest) =>
             {
-                var musica = new Musica(musicaRequest.nome);
+                var musica = new Musica(musicaRequest.nome)
+                {
+                    ArtistaId = musicaRequest.ArtistaId,
+                    AnoDeLancamento = musicaRequest.anoDeLancamento
+                };
                 if (dal.RecuperarPor(m => m.Nome.Equals(musicaRequest.nome)) is null)
                 {
                     dal.AdicionarObjeto(musica);
@@ -53,28 +57,15 @@ namespace SenaiSoundAPI.EndPoints
                 return Results.NoContent();
             });
 
-            app.MapPut("/Musicas", ([FromServices] DAL<Musica> dal, [FromBody] MusicaRequestEdit musicaRequestEdit) =>
-            {
-                var musicaAAtualizar = dal.RecuperarPor(a => a.Id.Equals(musicaRequestEdit.Id));
-                if (musicaAAtualizar is null)
-                {
-                    return Results.NotFound("Música não encontrada!");
-                }
-                musicaAAtualizar.Nome = musicaRequestEdit.nome;
-                musicaAAtualizar.AnoDeLancamento = musicaRequestEdit.anoLancamento;
-                dal.AtualizarObjeto(musicaAAtualizar);
-                return Results.Ok();
-            });
-
         }
         private static ICollection<MusicaResponse> EntityListToResponseList(IEnumerable<Musica> musicas)
         {
-            return musicas.Select(a => EntityToResponse(a)).ToList();
+            return musicas.Select(m => EntityToResponse(m)).ToList();
         }
 
         private static MusicaResponse EntityToResponse(Musica musica)
         {
-            return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista!.Id, musica.Artista.Nome);
+            return new MusicaResponse(musica.Id, musica.Nome!, musica.Artista!.Id, musica.Artista.Nome, musica.AnoDeLancamento);
         }
     }
 }

@@ -2,29 +2,28 @@
 @inject ArtistaAPI artistaAPI
 <PageTitle>Mostrar Artistas</PageTitle>
 
-<style>
-    .Menu {
-        text-align: center;
-        font-size: 30px;
-        color: blue;
-        font-family: 'Times New Roman', Times, serif, sans-serif;
-    }
-</style>
-
-<h3 class="Menu">Mostrar Artistas</h3>
-<h3>Artistas</h3>
+<MudText Typo="Typo.h3" Align="Align.Center">Mostrar Artistas</MudText>
 @if (artistas is not null)
 {
-    foreach (var artista in artistas)
-    {
-        <p>@artista.Nome</p>
-    }
+	<MudGrid Justify="Justify.Center">
+		@foreach (var artista in artistas)
+		{
+			<MudItem>
+				<MudPaper Height="140px" Width="140px">
+					@artista.Nome
+					<MudImage Src="@artista.FotoPerfil" Fluid=" true " Class=" rounded-lg " />
+				</MudPaper>
+			</MudItem>
+		}
+	</MudGrid>
 }
 
+
+
 @code {
-    private ICollection<ArtistaResponse>? artistas;
-    protected override async Task OnInitializedAsync()
-    {
-        artistas = await artistaAPI.GetArtistasAsync();
-    }
+	private ICollection<ArtistaResponse>? artistas;
+	protected override async Task OnInitializedAsync()
+	{
+		artistas = await artistaAPI.GetArtistasAsync();
+	}
 }

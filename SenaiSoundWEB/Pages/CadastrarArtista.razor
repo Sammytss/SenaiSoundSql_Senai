@@ -1,0 +1,30 @@
+﻿@page "/CadastrarArtista"
+@inject ArtistaAPI artistaAPI
+<PageTitle>Cadastrar Artista</PageTitle>
+
+<MudText Typo="Typo.h3" Align="Align.Center">Cadastrar Artista</MudText>
+<MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+	<MudTextField T="string" Label="Nome Do Artista" Required="true" RequiredError="Nome do artista é obrigatório!!" />
+	<MudTextField T="string" Label="Biografia do artista" Required="true" RequiredError="Email is required!" Lines="3" />
+	
+	<div class="d-flex align-center justify-space-between">
+		<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+			<ActivatorContent>
+				<MudFab Color="Color.Secondary"
+						StartIcon="@Icons.Material.Filled.Image"
+						Label="Foto de Perfil" />
+			</ActivatorContent>
+		</MudFileUpload>
+		<MudButton Variant="Variant.Filled" Color="Color.Success" Class="ml-auto">Registrar</MudButton>
+	</div>
+</MudForm>
+@code {
+	bool success;
+	string[] errors = { };
+	MudForm form;
+	IList<IBrowserFile> _files = new List<IBrowserFile>();
+	private void UploadFiles(IBrowserFile file)
+	{
+		_files.Add(file);
+	}
+}
